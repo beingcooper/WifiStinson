@@ -7,7 +7,7 @@ public class IPScanner {
 
     public static void runScanner(String command, String address) {
 
-        String temp = " ";
+        String temp = "";
         try {
             String operation = command + address;
             Process pro = Runtime.getRuntime().exec(operation);

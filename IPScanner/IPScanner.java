@@ -3,15 +3,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.util.regex.*;
 import java.net.UnknownHostException;
 
 public class IPScanner {
 
-    public static void runScanner(String command, String address) {
+    public static void runScanner(String command1, String address) {
 
         String temp = "";
+        String pattern;
+        String command2= "arp -a ";
         try {
-            String operation = command + address;
+            String operation = command1 + address;
             Process pro = Runtime.getRuntime().exec(operation);
             BufferedReader inputStream = new BufferedReader(
                     new InputStreamReader(pro.getInputStream()));
@@ -28,8 +31,21 @@ public class IPScanner {
 
             if ((text.toLowerCase().contains("unreachable"))||(text.contains("timed"))) {
                 System.out.println(address + " : Not Connected");
-            } else {
+                
+            } 
+            else {
                 System.out.println(address + " : Connected");
+                Process mac = Runtime.getRuntime().exec(command2+address);
+                BufferedReader input_mac = new BufferedReader(
+                    new InputStreamReader(mac.getInputStream()));
+                StringBuilder get_mac = new StringBuilder();
+
+            for (int i = 0; i < 4; i++) {
+                temp = inputStream.readLine();
+                get_mac.append(temp);
+            }
+            String mtext = get_mac.toString();     
+            System.out.println(mtext);
                     
             }
 
@@ -44,8 +60,8 @@ public class IPScanner {
                 builder1.append(temp);
             }
             String text1 = builder1.toString();
-            System.out.println(text1);*/
-            
+            System.out.println(text1);
+            */
 
         } catch (IOException e) {
             System.out.println("Error.....Exiting Gracefully.");
@@ -56,13 +72,13 @@ public class IPScanner {
 
         InetAddress myhost=InetAddress.getLocalHost(); 
         String ip = myhost.getHostAddress();
-        
         int fixed_add = ip.lastIndexOf(".");
         ip = ip.substring(0, fixed_add+1);
+        System.out.println(ip);
                 
         String new_ip;
-        for (int i = 1; i < 7; i++) {
-            new_ip = ip.concat(String.valueOf(i));
+        for (int j = 1; j < 2; j++) {
+            new_ip = ip.concat(String.valueOf(j));
             runScanner("ping ", new_ip);
         }
                 

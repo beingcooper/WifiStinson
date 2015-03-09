@@ -3,7 +3,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class IPScanner {
+public class IPScanner   {
 
     public static void runScanner(String  command, String   address) {
 

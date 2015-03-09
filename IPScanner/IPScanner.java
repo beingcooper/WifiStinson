@@ -16,7 +16,7 @@ public class IPScanner   {
 
             StringBuilder builder = new StringBuilder();
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 3; i++   )   {
                 temp = inputStream.readLine();
                 builder.append(temp);
             }

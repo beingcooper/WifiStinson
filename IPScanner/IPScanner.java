@@ -21,7 +21,7 @@ public class IPScanner {
 
             StringBuilder builder = new StringBuilder();
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 6; i++) {
                 temp = inputStream.readLine();
                 builder.append(temp);
             }
@@ -35,14 +35,14 @@ public class IPScanner {
             } 
             else {
                 System.out.println(address + " : Connected");
-                Process mac = Runtime.getRuntime().exec(command2+address);
+                Process mac = Runtime.getRuntime().exec("arp");
                 BufferedReader input_mac = new BufferedReader(
                     new InputStreamReader(mac.getInputStream()));
                 StringBuilder get_mac = new StringBuilder();
 
             for (int i = 0; i < 4; i++) {
                 temp = inputStream.readLine();
-                get_mac.append(temp);
+                get_mac.append(temp+"\n");
             }
             String mtext = get_mac.toString();     
             System.out.println(mtext);
@@ -72,14 +72,15 @@ public class IPScanner {
 
         InetAddress myhost=InetAddress.getLocalHost(); 
         String ip = myhost.getHostAddress();
+        System.out.println(ip);
         int fixed_add = ip.lastIndexOf(".");
         ip = ip.substring(0, fixed_add+1);
-        System.out.println(ip);
+        //System.out.println(ip);
                 
         String new_ip;
-        for (int j = 1; j < 2; j++) {
+        for (int j = 3; j < 4; j++) {
             new_ip = ip.concat(String.valueOf(j));
-            runScanner("ping ", new_ip);
+            runScanner("ping -l 1 -n 1 ", new_ip);
         }
                 
 

@@ -10,11 +10,14 @@ import java.net.NetworkInterface;
 
 public class IPScanner {
 
+    public static int count=1;
+
     public static void runScanner(String command1, String address) {
 
         String temp = "";
         String pattern;
         String command2= "arp -a ";
+        
         try {
             String operation = command1 + address;
             Process pro = Runtime.getRuntime().exec(operation);
@@ -35,7 +38,15 @@ public class IPScanner {
             //    System.out.println(address + " : Not Connected");
                 
             //} 
+             
+
+
             if(text.contains("TTL")) {
+                
+                System.out.println("Device No. "+IPScanner.count+"\n");
+                System.out.println("-------------");
+                IPScanner.count=IPScanner.count+1;
+
                 System.out.println("IP Address : "+address+"\n");
                 Process mac = Runtime.getRuntime().exec("arp -a");
                 BufferedReader input_mac = new BufferedReader(
@@ -77,10 +88,14 @@ public class IPScanner {
 
     public static void main(String[] args) throws UnknownHostException {
 
+        int no_of_dev;
         try{
         InetAddress myhost=InetAddress.getLocalHost(); 
         NetworkInterface network = NetworkInterface.getByInetAddress(myhost);
- 
+        String dev_name = network.getDisplayName();
+        System.out.println("\nYour Device Name : "+dev_name);
+
+       
         byte[] mac = network.getHardwareAddress();
  
         System.out.print("\nYour MAC address : ");
@@ -99,14 +114,18 @@ public class IPScanner {
         String net_add = ip.substring(0, fixed_add+1);
         //System.out.println(ip);
         System.out.println("Info about devices on your network\n");
+        
         System.out.println("-----------------------------------\n\n"); 
+        
         String new_ip;
-        for (int j = 1; j < 255; j++) {
+        for (int j = 1; j < 15; j++) {
             new_ip = net_add.concat(String.valueOf(j));
             if(!new_ip.equals(ip))
             runScanner("ping -l 1 -n 1 -w 50 ", new_ip);
         }
-                
+        no_of_dev = IPScanner.count -1;
+        System.out.println("\nScan completed.\nTotal number of Devices Found : "+ no_of_dev);
+            
 
     }
     catch (IOException e) {

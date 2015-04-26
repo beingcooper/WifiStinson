@@ -1,4 +1,4 @@
-
+// JAVA CODE
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,14 +8,15 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.net.NetworkInterface;
 
-public class IPScanner   {
 
+public class IPScanner {
 
-    public static int count=1;
-    public static void runScanner(String command1, String address) {
+   
+    public static String runScanner(String command1, String address) {
 
         String temp = "";
         String pattern;
+
         String command2= "arp -a ";
         
         try {
@@ -43,11 +44,12 @@ public class IPScanner   {
 
             if(text.contains("TTL")) {
                 
-                System.out.println("Device No. "+IPScanner.count+"\n");
-                System.out.println("-------------");
+               
                 IPScanner.count=IPScanner.count+1;
-
-                System.out.println("IP Address : "+address+"\n");
+                
+                //System.out.println("IP Address : "+address+"\n");
+                //arr[index][0]=address;
+                //print(arr[0][1]);
                 Process mac = Runtime.getRuntime().exec("arp -a");
                 BufferedReader input_mac = new BufferedReader(
                     new InputStreamReader(mac.getInputStream()));
@@ -76,19 +78,50 @@ public class IPScanner   {
             
             String text1 = builder1.toString();
             //System.out.println(text1);
-            System.out.println("MAC Address is :"+text1.substring(105,123).toUpperCase());
-            System.out.println("\n\n");
+            //arr[index++][1]=text1.substring(105,123);
+            //System.out.println("MAC Address is :"+text1.substring(105,123).toUpperCase());
+            //System.out.println("\n\n");
+            return text1.substring(105,123);
 }
-        //else {System.out.println(address + " : Not Connected");}
+        else {return "\0";}
 
         } catch (IOException e) {
             System.out.println("Error.....Exiting Gracefully.");
+            return "\0";
         }
     }
 
+    public static void IPtoMAC(String[][] pass_arr, int index, String inp_ip ){
+
+        for(i=0;i<index;i++)
+        {
+            if(pass_arr[i][0] == inp_ip)
+            {
+                /* IP Found*/
+                System.out.println(pass_arr[i][1]);
+            }
+        }
+    }
+
+    public static void MACtoIP(String[][] pass_arr, int index, String inp_mac ){
+
+        for(i=0;i<index;i++)
+        {
+            if(pass_arr[i][1] == inp_mac)
+            {
+                /* MAC Found*/
+                System.out.println(pass_arr[i][0]);
+            }
+        }
+    }
+    
     public static void main(String[] args) throws UnknownHostException {
 
         int no_of_dev;
+        int count=0;
+        int index=0;
+        String ret_mac="\0";
+        String arr[][] = new String [25][2];
         try{
         InetAddress myhost=InetAddress.getLocalHost(); 
         NetworkInterface network = NetworkInterface.getByInetAddress(myhost);
@@ -118,16 +151,37 @@ public class IPScanner   {
         for (int j = 1; j < 255; j++) {
             new_ip = net_add.concat(String.valueOf(j));
             if(!new_ip.equals(ip))
-            runScanner("ping -l 1 -n 1 -w 50 ", new_ip);
-        }
-        no_of_dev = IPScanner.count -1;
-        System.out.println("\nScan completed.\nTotal number of Devices Found : "+ no_of_dev);
-            
+            ret_mac = runScanner("ping -l 1 -n 1 -w 50 ", new_ip);
+            if(ret_mac != "\0")
+            {
+                 count++;
+                 System.out.println("Device No => "+count+"\n");
+                 System.out.println("-------------\n");
+                 System.out.println("IP Address : "+new_ip);
+                 System.out.print("\n");
+                 System.out.println("MAC Address : "+ret_mac);
+                 System.out.print("\n");
+                 arr[index][0]=new_ip;
+                 arr[index++][1]=ret_mac;           
+            }
 
+
+        }
+        //no_of_dev = IPScanner.count -1;
+        System.out.println("\nScan completed.\nTotal number of Devices Found : "+ count);
+        
+        /* Method for Finding MAC using IP address */    
+        IPtoMAC(arr,index,inp_ip);
+
+        /* Method for Finding IP using MAC address */    
+        MACtoIP(arr,index,inp_mac);
     }
     catch (IOException e) {
             System.out.println("Error.....Exiting Gracefully.");
         }
 
 }
-}
+
+
+
+}

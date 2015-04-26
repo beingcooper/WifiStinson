@@ -63,7 +63,7 @@ public class WifiStinson
 
         catch (IOException e) 
         {
-            System.out.println("Error.....Exiting Gracefully.");
+            System.out.println("Error...Exiting Gracefully.");
             return "\0";
         }
     }

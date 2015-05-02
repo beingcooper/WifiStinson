@@ -20,7 +20,7 @@ public class GUI implements ActionListener
     JPanel pnl1,pnl2,pnl3,pnl4;
     JTextArea area,area2,area3,area4;
     JTextField field,field2,field3,field4;
-    JComboBox list,list2;
+    JComboBox<String> list,list2;
     
     public void frame1()
     {
@@ -107,7 +107,7 @@ public class GUI implements ActionListener
         lbl5.setFont(new Font("Serif", Font.PLAIN, 18));
 //        field=new JTextField(15);
 //        field.setBounds(340,100,200,40);
-        list = new JComboBox(); 
+        list = new JComboBox<>(); 
         list.setBounds(340,100,200,40);
         list.addItem("");
         field2=new JTextField(20);
@@ -156,7 +156,7 @@ public class GUI implements ActionListener
         field4=new JTextField(15);
         field4.setBounds(340,200,200,40);
         //field4.setEditable(false);
-        list2 = new JComboBox(); 
+        list2 = new JComboBox<>(); 
         list2.setBounds(340,100,200,40);
         list2.addItem("");
         butstart3=new JButton("SEARCH..");
@@ -178,14 +178,14 @@ public class GUI implements ActionListener
         butstop3.addActionListener(this);
     }    
     
-    public static void main(String[] args) 
-    {
-        GUI gui = new GUI();
-        gui.frame1();
-        gui.frame2();
-        gui.frame3();
-        gui.frame4();
-    }
+//    public static void main(String[] args) 
+//    {
+//        GUI gui = new GUI();
+//        gui.frame1();
+//        gui.frame2();
+//        gui.frame3();
+//        gui.frame4();
+//    }
     
     public void own(String str)
     {
@@ -246,13 +246,13 @@ public class GUI implements ActionListener
             case "IP SEARCHING":    f1.setVisible(false);
                                     this.frame3();
                                     f3.setVisible(true); 
-                                    IPScanner scan4 = new IPScanner();
+                                    NetScan scan4 = new NetScan();
                                     scan4.ipdropdown();
                                     break;
             case "MAC SEARCHING":   f1.setVisible(false);
                                     this.frame4();
                                     f4.setVisible(true);  
-                                    IPScanner scan5 = new IPScanner();
+                                    NetScan scan5 = new NetScan();
                                     scan5.macdropdown();
                                     break;
             case "BACK":    f1.setVisible(true);
@@ -264,18 +264,18 @@ public class GUI implements ActionListener
                             break;
             case "EXIT":    exit(0);
                             break;
-            case "SCAN":    IPScanner scan = new IPScanner();
+            case "SCAN":    NetScan scan = new NetScan();
                             //WifiStinson scan = new WifiStinson();
                             scan.action();
                             break;
             case "SEARCH":  Object ip1=list.getSelectedItem();
                             //System.out.println(ip1);
-                            IPScanner scan2 = new IPScanner();
+                            NetScan scan2 = new NetScan();
                             scan2.IPtoMAC(ip1);
                             break; 
             case "SEARCH..":    String mac1=list2.getSelectedItem().toString();
                                 //System.out.println(mac1);
-                                IPScanner scan3 = new IPScanner();
+                                NetScan scan3 = new NetScan();
                                 scan3.MACtoIP(mac1);
                                 break;
         }

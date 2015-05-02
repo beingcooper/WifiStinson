@@ -3,7 +3,7 @@ import java.io.*;
 import javax.swing.*;
 
 
-public class IPScanner
+public class NetScan
 {
     String net_add="";
     String ip="";

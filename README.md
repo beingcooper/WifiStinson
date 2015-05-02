@@ -1,4 +1,3 @@
 # WifiStinson
-Know Your Neighbours - Network Scanner
 
-*Computer Network Assignment*
+Know Your Neighbours - Network Scanner

@@ -1,4 +1,5 @@
-# WifiStinson
-Know Your Neighbours - Network Scanner
+# Wi-Fi Stinson - A Network Scanner
 
-*Computer Network Assignment*
+* A tool to scan and retrieve the IP and MAC addresses of all the devices connected on your network.
+* Developed in Java.
+
